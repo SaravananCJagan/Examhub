@@ -1,0 +1,36 @@
+.fixed-sidebar {
+  grid-area: sidebar;
+}
+
+@media (min-width: 992px) {
+  .fixed-sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5rem;
+    display: block !important;
+    height: calc(100vh - 6rem);
+    overflow-y: auto;
+    background: white;
+    padding: 1rem 0rem;
+    margin: 1rem 0 0 0;
+    border-radius: 0.5rem;
+  }
+  .offcanvas-header-dt{
+    padding-left: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+form {
+  width: 100%;
+}
+.col-form-label{
+  padding-top: 0;
+  margin-left:0.8rem;
+}
+.big-label{
+  font-size: x-large;
+}
+.form-check-input{
+  margin-top: 0;
+}

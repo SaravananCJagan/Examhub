@@ -1,0 +1,23 @@
+<div class="pad-1" [ngClass]="additionalClasses">
+  <div class="pad-1 bg-white brdr-rad-05" [ngClass]="toolBarClasses">
+    <!-- add modal event listener -->
+    <a (click)="openAddModal()" class="btn btn-primary brdr-0">{{AddText}}</a>
+    <div class="m-t1">
+      <div class="row">
+        <div class="col-sm-12 col-md-5">
+          <div class="input-group">
+            <!-- search event listener -->
+            <input type="text" class="form-control input-shadow" [(ngModel)]="searchText" (keyup)="searchEvent.emit(searchText)" placeholder="Search by Name"
+              aria-label="Search by Name" aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <!-- sorting elements and selection change event listener -->
+        </div>
+      </div>
+    </div>
+    <!-- projected div -->
+    <ng-content></ng-content>
+  </div>
+</div>

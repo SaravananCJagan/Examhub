@@ -1,0 +1,281 @@
+<ng-template #addExam let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{title}} Exam Details</h4>
+    <button type="button" class="btn bg-transparent" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- exam-form.component.html -->
+    <form [formGroup]="examForm" (ngSubmit)="onSubmit()">
+      <input type="hidden" id="id" formControlName="id">
+      <div class="form-group row m-t1 m-b1">
+        <label for="name" class="col-sm-3 col-form-label">Exam Name*:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="name" formControlName="name"
+            placeholder="Name of the Exam" required>
+          <div
+            *ngIf="(examForm.get('name').hasError('required') && (examForm.get('name').dirty || examForm.get('name').touched)) && !resetForm"
+            class="text-danger">
+            Exam Name is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examBodyId" class="col-sm-3 col-form-label">Recruitment Body*:</label>
+        <div *ngIf="examBodies.length<=0; then initExamBody else existingExamBody"></div>
+        <ng-template #initExamBody>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" id="newExamConductingBody" formControlName="newExamConductingBody"
+              placeholder="Recruitment Body">
+          </div>
+          <div class="col-sm-4">
+            <button type="button" class="btn btn-outline-primary" (click)="submitNewRecruitmentBody()">
+              Save
+            </button>
+          </div>
+        </ng-template>
+        <ng-template #existingExamBody>
+          <div class="col-sm-5" *ngIf="isAddNewExamBody">
+            <input type="text" class="form-control" id="newExamConductingBody" formControlName="newExamConductingBody"
+              placeholder="Recruitment Body">
+          </div>
+          <div class="col-sm-5" *ngIf="!isAddNewExamBody">
+            <div ngbDropdown class="d-inline-block">
+              <button type="button" class="btn btn-outline-dark" id="examBodyId" ngbDropdownToggle>
+                {{ examForm?.value?.examBody?.name || 'Recruitment Body' }}
+              </button>
+              <div ngbDropdownMenu aria-labelledby="examBodyId">
+                <button ngbDropdownItem *ngFor="let body of examBodies"
+                  (click)="setExamBody(body)">{{body.name}}</button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="isAddNewExamBody;then addBodyButtons else newBodyButton"></div>
+          <ng-template #newBodyButton>
+            <div class="col-sm-4">
+              <button type="button" class="btn btn-outline-primary" (click)="addNewRecruitmentBody()">
+                Add New Body
+              </button>
+            </div>
+          </ng-template>
+          <ng-template #addBodyButtons>
+            <div class="col-sm-2 t-align-right">
+              <button type="button" class="btn btn-outline-primary" (click)="submitNewRecruitmentBody()">
+                Save
+              </button>
+            </div>
+            <div class="col-sm-2">
+              <button type="button" class="btn btn-outline-danger" (click)="cancelRecruitmentBody()">
+                Cancel
+              </button>
+            </div>
+          </ng-template>
+        </ng-template>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="notificationDate" class="col-sm-3 col-form-label">Notification Date*:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="notificationDate" formControlName="notificationDate"
+            placeholder="Date of Notification of Exam" ngbDatepicker #nd="ngbDatepicker" (click)="nd.toggle()"
+            required />
+          <div
+            *ngIf="(examForm.get('notificationDate').hasError('required') && (examForm.get('notificationDate').dirty || examForm.get('notificationDate').touched)) && !resetForm"
+            class="text-danger">
+            Notification Date is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examDate" class="col-sm-3 col-form-label">Exam Date*:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="examDate" formControlName="examDate"
+            placeholder="Date of commencement of Exam" ngbDatepicker #ed="ngbDatepicker" (click)="ed.toggle()"
+            required />
+          <div
+            *ngIf="(examForm.get('examDate').hasError('required') && (examForm.get('examDate').dirty || examForm.get('examDate').touched)) && !resetForm"
+            class="text-danger">
+            Exam Date is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1 v-align-center">
+        <label for="applicationLastDate" class="col-sm-3 col-form-label">Application Last Date:</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="applicationLastDate" formControlName="applicationLastDate"
+            placeholder="Application Last Date" ngbDatepicker #ld="ngbDatepicker" (click)="ld.toggle()" />
+        </div>
+        <div class="col-sm-5">
+          <ngb-timepicker formControlName="applicationLastTime" [hourStep]="23" [minuteStep]="59" [meridian]="true" />
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examDuration" class="col-sm-3 col-form-label">Exam Duration:</label>
+        <div class="col-sm-9">
+          <input type="text" pattern="[0-9]+" class="form-control" id="examDuration" formControlName="examDuration"
+            placeholder="Duration of the Exam" appNumericOnly>
+          <div
+            *ngIf="(examForm.get('examDuration').invalid && (examForm.get('examDuration').dirty || examForm.get('examDuration').touched)) && !resetForm"
+            class="text-danger">
+            Exam Duration should contain only numbers.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examNotificationLink" class="col-sm-3 col-form-label">Exam Notification Link*:</label>
+        <div class="col-sm-9">
+          <input type="url" pattern="https?://.+" class="form-control" id="examNotificationLink"
+            formControlName="examNotificationLink" placeholder="Notification Link of the Exam" required>
+          <div
+            *ngIf="(examForm.get('examNotificationLink').invalid && (examForm.get('examNotificationLink').dirty || examForm.get('examNotificationLink').touched)) && !resetForm"
+            class="text-danger">
+            Exam Notification Link is required and should contain valid link.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examApplicationLink" class="col-sm-3 col-form-label">Exam Application Link:</label>
+        <div class="col-sm-9">
+          <input type="url" pattern="https?://.+" class="form-control" id="examApplicationLink"
+            formControlName="examApplicationLink" placeholder="Application Link of the Exam">
+          <div
+            *ngIf="(examForm.get('examApplicationLink').invalid && (examForm.get('examApplicationLink').dirty || examForm.get('examApplicationLink').touched)) && !resetForm"
+            class="text-danger">
+            Exam Application Link should contain valid link.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examAgeLimit" pattern="[0-9]+" class="col-sm-3 col-form-label">Exam Age
+          Limit(Unreserved)*:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="examAgeLimit" formControlName="examAgeLimit"
+            placeholder="Age Limit for the Exam" required appNumericOnly>
+          <div
+            *ngIf="(examForm.get('examAgeLimit').invalid && (examForm.get('examAgeLimit').dirty || examForm.get('examAgeLimit').touched)) && !resetForm"
+            class="text-danger">
+            Exam Age Limit is required and should contain only numbers.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examEduEligibility" class="col-sm-3 col-form-label">Educational Qualification*:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" id="examEduEligibility" formControlName="examEduEligibility"
+            placeholder="Educational Qualification" required>
+          <div
+            *ngIf="(examForm.get('examEduEligibility').hasError('required') && (examForm.get('examEduEligibility').dirty || examForm.get('examEduEligibility').touched)) && !resetForm"
+            class="text-danger">
+            Educational Qualification is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examVacancy" class="col-sm-3 col-form-label">Vacancies(Unreserved)*:</label>
+        <div class="col-sm-9">
+          <input type="text" pattern="[0-9]+" class="form-control" id="examVacancy" formControlName="examVacancy"
+            placeholder="Vacancies" required appNumericOnly>
+          <div
+            *ngIf="(examForm.get('examVacancy').invalid && (examForm.get('examVacancy').dirty || examForm.get('examVacancy').touched)) && !resetForm"
+            class="text-danger">
+            Vacancies is required and should contain only numbers.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examMoreDetails" class="col-sm-3 col-form-label">More Details:</label>
+        <div class="col-sm-9">
+          <ckeditor #ckeditorform [editor]="Editor" formControlName="examMoreDetails">
+          </ckeditor>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="isPhysicalTest" class="col-sm-3 col-form-label">Physical Test:</label>
+        <div class="col-sm-9">
+          <input type="checkbox" id="isPhysicalTest" class="form-check-input form-control"
+            formControlName="isPhysicalTest">
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="isGenderBased" class="col-sm-3 col-form-label">Gender Based:</label>
+        <div class="col-sm-9">
+          <input type="checkbox" id="isGenderBased" class="form-check-input form-control"
+            formControlName="isGenderBased">
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1" *ngIf="examForm.get('isGenderBased').value">
+        <label for="gender" class="col-sm-3 col-form-label">Gender:</label>
+        <div class="col-sm-9">
+          <div class="col-sm-9">
+            <div ngbDropdown class="d-inline-block">
+              <button type="button" class="btn btn-outline-dark" id="gender" ngbDropdownToggle>
+                {{ examForm.get('gender').value || 'Gender' }}
+              </button>
+              <div ngbDropdownMenu aria-labelledby="gender">
+                <button ngbDropdownItem (click)="setFGValue('gender','Male')">Male</button>
+                <button ngbDropdownItem (click)="setFGValue('gender','Female')">Female</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <label for="examCategory" class="col-sm-3 col-form-label">Exam Category*:</label>
+        <div class="col-sm-9">
+          <div ngbDropdown class="d-inline-block">
+            <button type="button" class="btn btn-outline-dark" id="examCategory" ngbDropdownToggle>
+              {{ examForm.get('examCategory').value || 'Exam Category' }}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="examCategory">
+              <button ngbDropdownItem (click)="setCategory('Central')">Central</button>
+              <button ngbDropdownItem (click)="setCategory('State')">State</button>
+            </div>
+          </div>
+          <div
+            *ngIf="(examForm.get('examCategory').hasError('required') && (examForm.get('examCategory').dirty || examForm.get('examCategory').touched)) && !resetForm"
+            class="text-danger">
+            Exam Category is required.
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isState" class="form-group row m-t1 m-b1">
+        <label for="examState" class="col-sm-3 col-form-label">Exam State:</label>
+        <div class="col-sm-9">
+          <div ngbDropdown class="d-inline-block">
+            <button type="button" class="btn btn-outline-dark" id="examState" ngbDropdownToggle>
+              {{ examForm.get('examState').value || 'Exam State' }}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="examState">
+              <button ngbDropdownItem *ngFor="let state of states" (click)="setState(state)">{{state}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row m-t1 m-b1">
+        <div class="row">
+          <div class="col-sm-2"><button type="submit" class="btn btn-outline-primary" title="{{SubmitComment}}" [disabled]="submitDisabled">Submit</button></div>
+          <div class="col-sm-2"><button type="button" class="btn btn-outline-danger" (click)="onReset()">Reset</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <app-simple-modal (modalClosed)="onReset()"></app-simple-modal>
+  </div>
+</ng-template>

@@ -1,0 +1,46 @@
+<div class="pad-1">
+  <div class="pad-1 bg-white brdr-rad-05">
+    <!-- add modal event listener -->
+    <a (click)="openAddModal()" class="btn btn-primary brdr-0">Add Recruiter</a>
+    <div class="m-t1">
+      <div class="row">
+        <div class="col-sm-12 col-md-5">
+          <div class="input-group">
+            <!-- search event listener -->
+            <input type="text" class="form-control input-shadow" [(ngModel)]="searchText" (keyup)="searchRecruiterList()" placeholder="Search by Name"
+              aria-label="Search by Name" aria-describedby="basic-addon2">
+            <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <!-- sorting elements and selection change event listener -->
+        </div>
+      </div>
+    </div>
+    <!-- projected div -->
+    <div class="table-custom card-custom card-shadow row pad-1 m-t1" *ngFor="let recruiter of filteredRecruiterList">
+      <div class="col-md-7 col-sm-12">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <strong class="lh-2">Name: </strong>{{recruiter.name}}
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <strong class="lh-2">Last Modified: </strong>{{recruiter.lastModified}}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 col-sm-12 right-align">
+        <!-- edit and delete event listeners -->
+        <button type="button" class="btn btn-secondary brdr-0" [disabled]="recruiter.name==='Autonomous'" (click)="onEdit(recruiter)">Edit</button>&nbsp;
+        <button type="button" class="btn btn-outline-danger" [disabled]="recruiter.name==='Autonomous'" (click)="onDeleteClick(recruiter.id)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-add-recruitment-body (onResponseCallback)="callback($event)" (afterSubmit)="loadSpinner()"></app-add-recruitment-body>
+<app-spinner [isDisplayed]="isSpinner"></app-spinner>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<ng-template #successToast>{{toastMessage}}</ng-template>
+<ng-template #failureToast>{{toastMessage}}</ng-template>
+<app-confirmation-modal [title]="'Delete Recruiter Body'" [confirmationContent]="'Are you sure, you want to delete this entry?'" (YesEvent)="onDelete()" (CancelEvent)="onCancel()"></app-confirmation-modal>

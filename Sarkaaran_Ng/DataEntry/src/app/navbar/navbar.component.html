@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-sm navbar-custom">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCustom">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a [routerLink]="['/']" class="navbar-brand"><img src="../../assets/libs/images/Logo_5.png" alt="Sarkaaran"></a>
+  <div class="navbar-collapse collapse" id="navbarCustom">
+    <ul class="navbar-nav">
+      <li class="nav-item" routerLinkActive="nav-active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['/']">Exams</a>
+      </li>
+      <li class="nav-item" routerLinkActive="nav-active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['/manage-recruitment-bodies']">Manage Recruitment Bodies</a>
+      </li>
+      <li class="nav-item" routerLinkActive="nav-active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['/results']">Results and Updates</a>
+      </li>
+      <li class="nav-item" routerLinkActive="nav-active" [routerLinkActiveOptions]="{ exact: true }">
+        <a class="nav-link" [routerLink]="['/pyqs']">PYQs Archive</a>
+      </li>
+    </ul>
+  </div>
+
+</nav>

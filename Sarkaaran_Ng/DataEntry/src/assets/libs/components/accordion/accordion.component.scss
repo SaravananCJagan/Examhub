@@ -1,0 +1,18 @@
+.accordion-item{
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+}
+.accordion-button {
+
+  &:focus {
+    border: 0;
+    box-shadow: unset;
+    color: unset;
+    background-color: unset;
+  }
+  &:not(.collapsed){
+    color: unset;
+    background-color: unset;
+  }
+}

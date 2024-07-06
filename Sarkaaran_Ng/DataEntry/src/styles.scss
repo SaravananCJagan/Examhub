@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+@charset 'UTF-8';
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+@import './assets/libs/scss/variables/variables';
+
+@import './assets/libs/scss/components/navbar';
+@import './assets/libs/scss/components/button';
+@import './assets/libs/scss/components/cards';
+@import './assets/libs/scss/components/common';
+@import './assets/libs/scss/components/input';
+@import './assets/libs/scss/components/marginsandpaddings.scss';
+@import './assets/libs/scss/components/fonts.scss';
+
+body{
+  min-height: 100vh;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}

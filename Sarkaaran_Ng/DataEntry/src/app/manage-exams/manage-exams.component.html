@@ -1,0 +1,52 @@
+<div class="row ml-1">
+  <div class="col-lg-3" style="display: none;">
+    <app-filter-pane (submitEvent)="filterSubmit($event)"></app-filter-pane>
+  </div>
+  <div class="col-sm-12 pad-l05">
+    <lib-data-grid (addModalEvent)="openAddModal()" [AddText]="'Add Exam'" [additionalClasses]="'pad-l0'">
+      <div class="row">
+        <div class="table-custom card-custom card-shadow cust-col-md-3 cust-col-sm-12 pad-1 m-t1 ml-1" *ngFor="let exam of exams">
+          <lib-card [Title]="exam.name" [SubTitle]="exam.examBody.name">
+            <div class="row" specialInfo>
+              <div class="col-sm-12 daysCount">
+                <p class="font-large">
+                  12 days to apply
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-3 action-buttons-end" action-buttons>
+              <a class="anchor-without-href font-large secondary-color" (click)="onEdit(exam)"><i class="fa fa-pencil"></i></a>
+              <a class="anchor-without-href font-large danger-color m-l05" (click)="onDelete(exam)"><i class="fa fa-trash"></i></a>
+            </div>
+            <table class="table table-bordered table-striped-columns m-t1" card-content>
+              <tbody>
+                <tr>
+                  <td>Application Last Date:</td>
+                  <td>{{exam.applicationLastDate}}</td>
+                </tr>
+                <tr>
+                  <td>Exam Date:</td>
+                  <td>{{exam.examDate}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="col-sm-12" action-links>
+              <a href="{{exam.examNotificationLink}}" class="font-small">Download Notification</a>
+              &nbsp;<p style="display: inline;">|</p>&nbsp;
+              <a href="{{exam.examApplicationLink}}" class="font-small">Apply Online</a>
+              &nbsp;<p style="display: inline;">|</p>&nbsp;
+              <a target="_blank" href="#"  class="font-small">Visit Coaching Centres</a>
+            </div>
+          </lib-card>
+        </div>
+      </div>
+    </lib-data-grid>
+  </div>
+</div>
+
+
+<app-add-exam (onResponseCallback)="callback($event)" (afterSubmit)="loadSpinner()"></app-add-exam>
+<app-spinner [isDisplayed]="isSpinner"></app-spinner>
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+<ng-template #successToast>{{toastMessage}}</ng-template>
+<ng-template #failureToast>{{toastMessage}}</ng-template>

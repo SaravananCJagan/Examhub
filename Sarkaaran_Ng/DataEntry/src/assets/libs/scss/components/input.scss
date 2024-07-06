@@ -1,0 +1,21 @@
+input{
+  border-radius: 2rem !important;
+}
+input[type="checkbox"]{
+  border-radius: 0.25em !important;
+  margin-top: .5rem;
+  border: var(--bs-border-width) solid #adadad;
+  height: 1.25rem;
+}
+.input-shadow{
+  box-shadow: 0px 3px 6px #00000012;
+}
+.input-group{
+  span{
+    margin-left: calc(var(--bs-border-width) * -40) !important;
+    z-index: 1;
+    background: transparent;
+    border: 0;
+    color: #6c6b6b;
+  }
+}

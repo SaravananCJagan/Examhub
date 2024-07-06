@@ -1,0 +1,26 @@
+.navbar-custom {
+  background-color: $white-color;
+  padding: 1rem;
+  box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 0rem;
+}
+
+.nav-active {
+  background-color: transparent;
+}
+
+.nav-active a {
+  color: $tertiary-color;
+  font-weight: bold;
+}
+
+.nav-active:hover a,
+.nav-active:active a,
+.nav-active:visited a,
+.nav-active:focus a {
+  color: $tertiary-color !important;
+}
+
+.nav-link:focus{
+  color: $tertiary-color !important;
+}

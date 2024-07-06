@@ -1,0 +1,14 @@
+.card{
+  border:0px;
+}
+.card-shadow{
+  box-shadow: 0px 3px 6px #00000012;
+}
+.card-white{
+  background: white;
+}
+.card-custom{
+  background: transparent linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%) 0% 0% no-repeat padding-box;
+  border-radius: 0;
+  border: 1px solid antiquewhite;
+}

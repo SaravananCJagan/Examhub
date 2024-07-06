@@ -1,0 +1,51 @@
+.btn-primary{
+  background: $primary-color-bright;
+  color: $white-color;
+}
+.btn-outline-primary{
+  background-color: transparent;
+  border-color: $primary-color;
+  color: $primary-color;
+  &:hover{
+    background-color: $primary-color;
+    color: $white-color;
+  }
+}
+.btn-secondary{
+  background: $secondary-color;
+  color: $white-color;
+}
+.btn-outline-secondary{
+  background-color: transparent;
+  border-color: $secondary-color;
+  color: $secondary-color;
+  &:hover{
+    background-color: $secondary-color;
+    color: $white-color;
+  }
+}
+.btn-tertiary{
+  background: $tertiary-color;
+  color: $white-color;
+}
+.btn-outline-tertiary{
+  background-color: transparent;
+  border-color: $tertiary-color;
+  color: $tertiary-color;
+  &:hover{
+    background-color: $tertiary-color;
+    color: $white-color;
+  }
+}
+.btn-rounded{
+  border-radius: 50%;
+}
+.btn-shadow{
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.btn{
+  border-radius:2rem;
+}
+.action-buttons-end{
+  display: inline-block;
+}
